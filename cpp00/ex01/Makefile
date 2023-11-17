@@ -9,7 +9,6 @@ HEADER =	PhoneBook.hpp \
 SRCS =  main.cpp \
 		Contact.cpp \
 		PhoneBook.cpp \
-		Command.cpp \
 
 OBJS = $(SRCS:%.cpp=%.o)
 
