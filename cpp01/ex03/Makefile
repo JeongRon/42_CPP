@@ -1,0 +1,33 @@
+NAME = Weapon
+
+CPP = c++
+CPPFLAGS = -Wall -Wextra -Werror -std=c++98
+
+HEADER =	Weapon.hpp \
+			HumanA.hpp \
+			HumanB.hpp \
+
+SRCS =  main.cpp \
+		Weapon.cpp \
+		HumanA.cpp \
+		HumanB.cpp \
+
+OBJS = $(SRCS:%.cpp=%.o)
+
+all: $(NAME)
+
+clean:
+	rm -f $(OBJS)
+
+fclean: clean
+	rm -f $(NAME)
+
+re: fclean all
+
+%.o: %.cpp
+	$(CPP) $(CPPFLAGS) -c $< -o $@
+	
+$(NAME): $(OBJS) $(HEADER)
+	$(CPP) $(CPPFLAGS) -o $(NAME) $(OBJS)
+
+.PHONY: clean fclean all re
