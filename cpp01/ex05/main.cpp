@@ -4,11 +4,14 @@ int main(void) {
   Harl harl;
 
   harl.complain("debug");
-  std::cout << "\n";
+  std::cout << std::endl;
   harl.complain("info");
-  std::cout << "\n";
+  std::cout << std::endl;
   harl.complain("warning");
-  std::cout << "\n";
+  std::cout << std::endl;
   harl.complain("error");
+  std::cout << std::endl;
+  harl.complain("wowowowowo");
+  std::cout << std::endl;
   return 0;
 }

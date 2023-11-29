@@ -26,6 +26,8 @@ std::string ft_replace(std::string line, std::string s1, std::string s2) {
 int main(int ac, char **av) {
   if (ac != 4)
     std::cout << "ERROR: Please Input Three Parameters" << std::endl;
+  else if (av[2][0] == '\0')
+    std::cout << "ERROR: Please Input S1" << std::endl;
   else {
     // infile check
     std::ifstream infile(av[1]);
@@ -35,8 +37,8 @@ int main(int ac, char **av) {
     }
     // outfile check
     std::string name = av[1];
-    std::string replace = ".replace";
-    std::ofstream outfile(name.append(replace));
+    name += ".replace";
+    std::ofstream outfile(name.c_str());
     if (!outfile.is_open()) {
       std::cout << "ERROR: OutFile Open" << std::endl;
       return (0);

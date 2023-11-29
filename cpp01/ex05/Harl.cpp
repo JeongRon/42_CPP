@@ -30,7 +30,13 @@ void Harl::complain(std::string level) {
   std::string levelList[4] = {"debug", "info", "warning", "error"};
   void (Harl::*funcList[4])() = {&Harl::debug, &Harl::info, &Harl::warning,
                                  &Harl::error};
+  int flag = 0;
   for (int i = 0; i < 4; i++) {
-    if (level == levelList[i]) (this->*funcList[i])();
+    if (level == levelList[i]) {
+      (this->*funcList[i])();
+      flag = 1;
+      break;
+    }
   }
+  if (!flag) std::cout << "No corresponding level exists!" << std::endl;
 }

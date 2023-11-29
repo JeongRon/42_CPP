@@ -6,7 +6,7 @@
 class HumanA {
  private:
   std::string name;
-  Weapon* weapon;  // 주소값만 들고 다니기
+  Weapon& weapon;  // 레퍼런스 선언
 
  public:
   HumanA(std::string name, Weapon& weapon);
