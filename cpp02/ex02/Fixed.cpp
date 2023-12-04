@@ -57,7 +57,7 @@ Fixed& Fixed::operator++(void) {
   return (*this);
 }
 const Fixed Fixed::operator++(int) {
-  Fixed tmp(*this);
+  const Fixed tmp(*this);
   this->rawBits++;
   return (tmp);
 }
@@ -66,7 +66,7 @@ Fixed& Fixed::operator--(void) {
   return (*this);
 }
 const Fixed Fixed::operator--(int) {
-  Fixed tmp(*this);
+  const Fixed tmp(*this);
   this->rawBits--;
   return (tmp);
 }
