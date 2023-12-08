@@ -5,7 +5,7 @@ ClapTrap::ClapTrap() {
   hitPoint = 10;
   energyPoint = 10;
   attackDamage = 0;
-  std::cout << "Constructor Called" << std::endl;
+  std::cout << "ClapTrap Constructor Called" << std::endl;
 }
 
 ClapTrap::ClapTrap(std::string name) {
@@ -13,17 +13,19 @@ ClapTrap::ClapTrap(std::string name) {
   hitPoint = 10;
   energyPoint = 10;
   attackDamage = 0;
-  std::cout << "Constructor " << name << " Called" << std::endl;
+  std::cout << "ClapTrap Constructor " << name << " Called" << std::endl;
 }
 
-ClapTrap::~ClapTrap() { std::cout << "Destructor Called" << std::endl; }
+ClapTrap::~ClapTrap() {
+  std::cout << "ClapTrap Destructor Called" << std::endl;
+}
 
 ClapTrap::ClapTrap(ClapTrap& clapTrap) {
   name = clapTrap.name;
   hitPoint = clapTrap.hitPoint;
   energyPoint = clapTrap.energyPoint;
   attackDamage = clapTrap.attackDamage;
-  std::cout << "Copy Constructor Called" << std::endl;
+  std::cout << "ClapTrap Copy Constructor Called" << std::endl;
 }
 
 ClapTrap& ClapTrap::operator=(const ClapTrap& clapTrap) {
@@ -31,7 +33,7 @@ ClapTrap& ClapTrap::operator=(const ClapTrap& clapTrap) {
   hitPoint = clapTrap.hitPoint;
   energyPoint = clapTrap.energyPoint;
   attackDamage = clapTrap.attackDamage;
-  std::cout << "Operator= Called" << std::endl;
+  std::cout << "ClapTrap Operator= Called" << std::endl;
   return (*this);
 }
 
@@ -39,17 +41,18 @@ void ClapTrap::attack(const std::string& target) {
   std::cout << "---------------------" << std::endl;
   int flag = 0;
   if (hitPoint == 0) {
-    std::cout << "attack: " << name << " There's No hitPoint !" << std::endl;
+    std::cout << "ClapTrap " << name << " attack: There's No hitPoint !"
+              << std::endl;
     flag = 1;
   }
   if (energyPoint == 0) {
-    std::cout << name << "attack: "
-              << " There's No energyPoint !" << std::endl;
+    std::cout << "ClapTrap " << name << " attack: There's No energyPoint !"
+              << std::endl;
     flag = 1;
   }
   if (flag == 0) {
-    std::cout << name << " attacks " << target << ", causing " << attackDamage
-              << " points of damage !" << std::endl;
+    std::cout << "ClapTrap " << name << " attacks: " << target << ", causing "
+              << attackDamage << " points of damage !" << std::endl;
     energyPoint--;
   }
   std::cout << "---------------------" << std::endl;
@@ -59,28 +62,30 @@ void ClapTrap::takeDamage(unsigned int amount) {
   std::cout << "---------------------" << std::endl;
   hitPoint -= amount;
   if (hitPoint < 0) hitPoint = 0;
-  std::cout << name << " take " << amount << " damage !" << std::endl;
-  std::cout << name << " hitPoint: " << hitPoint << std::endl;
+  std::cout << "ClapTrap " << name << " take " << amount << " damage !"
+            << std::endl;
+  std::cout << "ClapTrap " << name << " hitPoint: " << hitPoint << std::endl;
   std::cout << "---------------------" << std::endl;
 }
 
 void ClapTrap::beRepaired(unsigned int amount) {
   std::cout << "---------------------" << std::endl;
-
   int flag = 0;
   if (hitPoint == 0) {
-    std::cout << "repair: " << name << " There's No hitPoint !" << std::endl;
+    std::cout << "ClapTrap " << name << " repair: There's No hitPoint !"
+              << std::endl;
     flag = 1;
   }
   if (energyPoint == 0) {
-    std::cout << "repair: " << name << " There's No energyPoint !" << std::endl;
+    std::cout << "ClapTrap " << name << " repair: There's No energyPoint !"
+              << std::endl;
     flag = 1;
   }
   if (flag == 0) {
     hitPoint += amount;
-    std::cout << name << " be Reaired !" << std::endl;
+    std::cout << "ClapTrap " << name << " be Reaired !" << std::endl;
     energyPoint--;
-    std::cout << name << " hitPoint: " << hitPoint << std::endl;
+    std::cout << "ClapTrap " << name << " hitPoint: " << hitPoint << std::endl;
   }
   std::cout << "---------------------" << std::endl;
 }
