@@ -1,7 +1,7 @@
 #include "ClapTrap.hpp"
 
 ClapTrap::ClapTrap() {
-  name = "Empty";
+  name = "ClApTrAp";
   hitPoint = 10;
   energyPoint = 10;
   attackDamage = 0;

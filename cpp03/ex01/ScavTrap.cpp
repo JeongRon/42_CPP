@@ -1,7 +1,7 @@
 #include "ScavTrap.hpp"
 
 ScavTrap::ScavTrap() {
-  name = "Empty";
+  name = "ScAvTrAp";
   hitPoint = 100;
   energyPoint = 50;
   attackDamage = 20;
@@ -73,7 +73,6 @@ void ScavTrap::guardGate(void) {
   }
   if (flag == 0) {
     std::cout << "ScavTrap " << name << " GateKeeper Mode !" << std::endl;
-    energyPoint--;
   }
   std::cout << "---------------------" << std::endl;
 }
