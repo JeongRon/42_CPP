@@ -20,7 +20,7 @@ FragTrap::~FragTrap() {
   std::cout << "FragTrap Destructor Called" << std::endl;
 }
 
-FragTrap::FragTrap(FragTrap& fragTrap) {
+FragTrap::FragTrap(FragTrap& fragTrap) : ClapTrap(fragTrap) {
   name = fragTrap.name;
   hitPoint = fragTrap.hitPoint;
   energyPoint = fragTrap.energyPoint;

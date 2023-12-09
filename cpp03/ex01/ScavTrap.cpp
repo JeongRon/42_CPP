@@ -20,7 +20,7 @@ ScavTrap::~ScavTrap() {
   std::cout << "ScavTrap Destructor Called" << std::endl;
 }
 
-ScavTrap::ScavTrap(ScavTrap& scavTrap) {
+ScavTrap::ScavTrap(ScavTrap& scavTrap) : ClapTrap(scavTrap) {
   name = scavTrap.name;
   hitPoint = scavTrap.hitPoint;
   energyPoint = scavTrap.energyPoint;
