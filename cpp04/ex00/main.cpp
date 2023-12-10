@@ -9,19 +9,22 @@
 int main() {
   // atexit(leak_check);
   const Animal* meta = new Animal();
-  const Animal* j = new Dog();
   const Animal* i = new Cat();
-
-  std::cout << j->getType() << " " << std::endl;
-  std::cout << i->getType() << " " << std::endl;
-  j->makeSound();
-  i->makeSound();  // will output the cat sound!
-  meta->makeSound();
-
+  const Animal* j = new Dog();
   std::cout << "---------------" << std::endl;
 
+  std::cout << meta->getType() << " " << std::endl;
+  std::cout << i->getType() << " " << std::endl;
+  std::cout << j->getType() << " " << std::endl;
+  meta->makeSound();
+  i->makeSound();  // will output the cat sound!
+  j->makeSound();
+
+  std::cout << "---------------" << std::endl;
   const WrongAnimal* tmp1 = new WrongAnimal();
   const WrongAnimal* tmp2 = new WrongCat();
+
+  std::cout << "---------------" << std::endl;
   std::cout << tmp1->getType() << " " << std::endl;
   std::cout << tmp2->getType() << " " << std::endl;
   tmp1->makeSound();
