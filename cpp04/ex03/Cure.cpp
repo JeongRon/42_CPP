@@ -1,5 +1,7 @@
 #include "Cure.hpp"
 
+#include "ICharacter.hpp"
+
 Cure::Cure() {
   this->setType("cure");
   std::cout << "Cure: Default Constructor Called" << std::endl;

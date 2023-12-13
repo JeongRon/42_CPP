@@ -2,9 +2,6 @@
 #define AMATERIA_HPP
 
 #include <iostream>
-#include <string>
-
-#include "ICharacter.hpp"
 class ICharacter;
 
 // 추상 클래스

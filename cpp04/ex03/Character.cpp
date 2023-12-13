@@ -1,5 +1,7 @@
 #include "Character.hpp"
 
+#include "AMateria.hpp"
+
 Character::Character() : name("default"), inventory() {
   std::cout << "Character: Default Constructor Called" << std::endl;
 }
@@ -48,34 +50,39 @@ void Character::setName(std::string name) { this->name = name; }
 
 void Character::equip(AMateria* m) {
   if (!m) {
-    std::cout << "ERROR: Invalid materia !" << std::endl;
+    std::cout << "Character equip ERROR: Invalid materia !" << std::endl;
     return;
   }
   for (int i = 0; i < 4; i++) {
     if (inventory[i] == NULL) {
       inventory[i] = m;
-      std::cout << "SUCCESS: materia equiped in " << i << " index" << std::endl;
+      std::cout << "Character equip SUCCESS: materia equiped in " << i
+                << " index" << std::endl;
       return;
     }
   }
 
-  std::cout << "ERROR: Inventory Full !" << std::endl;
+  std::cout << "Character equip ERROR: Inventory Full !" << std::endl;
 }
 
 void Character::unequip(int idx) {
-  if (inventory[idx] == NULL)
-    std::cout << "ERROR: Empty " << idx << " index !" << std::endl;
-  else {
-    delete inventory[idx];
-    inventory[idx] = NULL;
-    std::cout << "SUCCESS: Unequiped Complete " << idx << " index !"
+  if (idx < 0 || 3 < idx)
+    std::cout << "Character unequip ERROR: index range !" << std::endl;
+  else if (inventory[idx] == NULL)
+    std::cout << "Character unequip ERROR: Empty " << idx << " index !"
               << std::endl;
+  else {
+    inventory[idx] = NULL;
+    std::cout << "Character unequip SUCCESS: Unequiped Complete " << idx
+              << " index !" << std::endl;
   }
 }
 
 void Character::use(int idx, ICharacter& target) {
-  if (inventory[idx])
+  if (idx < 0 || 3 < idx)
+    std::cout << "Character use ERROR: index range !" << std::endl;
+  else if (inventory[idx])
     inventory[idx]->use(target);
   else
-    std::cout << "ERROR: Character Empty Idx" << std::endl;
+    std::cout << "Character use ERROR: Character Empty Idx" << std::endl;
 }

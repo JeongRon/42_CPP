@@ -1,5 +1,7 @@
 #include "MateriaSource.hpp"
 
+#include "AMateria.hpp"
+
 MateriaSource::MateriaSource() : inventory() {
   std::cout << "MateriaSource: Default Constructor Called" << std::endl;
 }
@@ -37,20 +39,22 @@ MateriaSource& MateriaSource::operator=(MateriaSource& source) {
 
 void MateriaSource::learnMateria(AMateria* m) {
   if (!m) {
-    std::cout << "Invalid materia !" << std::endl;
+    std::cout << "MateriaSource learnMateria ERROR: Invalid materia !"
+              << std::endl;
     return;
   }
 
   for (int i = 0; i < 4; i++) {
     if (inventory[i] == NULL) {
       inventory[i] = m;
-      std::cout << "MateriaSource: Learned Materia in " << i << " index"
-                << std::endl;
+      std::cout << "MateriaSource learnMateria SUCCESS: Learned Materia in "
+                << i << " index" << std::endl;
       return;
     }
   }
 
-  std::cout << "MateriaSource: Inventory Full !" << std::endl;
+  std::cout << "MateriaSource learnMateria ERROR: Inventory Full !"
+            << std::endl;
   delete m;
 }
 
@@ -58,10 +62,12 @@ AMateria* MateriaSource::createMateria(std::string const& type) {
   for (int i = 0; i < 4; i++) {
     if (inventory[i]) {
       if (inventory[i]->getType() == type) {
+        std::cout << "MateriaSource createMateria SUCCESS" << std::endl;
         return (inventory[i]->clone());
       }
     }
   }
-  std::cout << "MateriaSource: " << type << " Nothing !" << std::endl;
+  std::cout << "MateriaSource createMateria ERROR: Inventory " << type
+            << "type Nothing !" << std::endl;
   return (NULL);
 }

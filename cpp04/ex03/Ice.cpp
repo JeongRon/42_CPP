@@ -1,5 +1,7 @@
 #include "Ice.hpp"
 
+#include "ICharacter.hpp"
+
 Ice::Ice() {
   this->setType("ice");
   std::cout << "Ice: Default Constructor Called" << std::endl;
