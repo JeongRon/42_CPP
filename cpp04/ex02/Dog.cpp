@@ -8,13 +8,15 @@ Dog::Dog() {
 
 Dog::~Dog() {
   delete brain;
+  brain = NULL;
   std::cout << "Dog: Destructor Called" << std::endl;
 }
 
-Dog::Dog(const Dog& dog) {
+Dog::Dog(const Dog& dog) : Animal(dog) {
   type = dog.type;
 
   delete brain;
+  brain = NULL;
   brain = new Brain(*dog.getBrain());
 
   std::cout << "Dog: Copy Constuctor Called" << std::endl;
@@ -24,6 +26,7 @@ Dog& Dog::operator=(Dog& dog) {
   type = dog.type;
 
   delete brain;
+  brain = NULL;
   brain = new Brain(*dog.getBrain());
 
   std::cout << "Dog: Operator Called" << std::endl;

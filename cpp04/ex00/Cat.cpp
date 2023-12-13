@@ -7,13 +7,13 @@ Cat::Cat() {
 
 Cat::~Cat() { std::cout << "Cat: Destructor Called" << std::endl; }
 
-Cat::Cat(const Cat& animal) {
-  type = animal.type;
+Cat::Cat(const Cat& cat) : Animal(cat) {
+  type = cat.type;
   std::cout << "Cat: Copy Constuctor Called" << std::endl;
 }
 
-Cat& Cat::operator=(Cat& animal) {
-  type = animal.type;
+Cat& Cat::operator=(Cat& cat) {
+  type = cat.type;
   std::cout << "Cat: Operator Called" << std::endl;
   return (*this);
 }

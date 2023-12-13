@@ -8,13 +8,15 @@ Cat::Cat() {
 
 Cat::~Cat() {
   delete brain;
+  brain = NULL;
   std::cout << "Cat: Destructor Called" << std::endl;
 }
 
-Cat::Cat(const Cat& cat) {
+Cat::Cat(const Cat& cat) : Animal(cat) {
   type = cat.type;
 
   delete brain;
+  brain = NULL;
   brain = new Brain(*cat.getBrain());
 
   std::cout << "Cat: Copy Constuctor Called" << std::endl;
@@ -24,6 +26,7 @@ Cat& Cat::operator=(Cat& cat) {
   type = cat.type;
 
   delete brain;
+  brain = NULL;
   brain = new Brain(*cat.getBrain());
 
   std::cout << "Cat: Operator Called" << std::endl;

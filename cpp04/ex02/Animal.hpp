@@ -4,7 +4,6 @@
 #include <iostream>
 #include <string>
 
-// 추상 클래스
 class Animal {
  protected:
   std::string type;
@@ -16,7 +15,7 @@ class Animal {
   Animal& operator=(Animal& animal);
 
   std::string getType() const;
-  virtual void makeSound() const = 0;  // 순수 가상 함수
+  virtual void makeSound() const = 0;
 };
 
 #endif

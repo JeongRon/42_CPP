@@ -9,7 +9,7 @@ Cure::Cure() {
 
 Cure::~Cure() { std::cout << "Cure: Destructor Called" << std::endl; }
 
-Cure::Cure(const Cure& cure) {
+Cure::Cure(const Cure& cure) : AMateria(cure) {
   this->type = cure.type;
   std::cout << "Cure: Copy Called" << std::endl;
 }
