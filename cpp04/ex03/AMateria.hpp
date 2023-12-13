@@ -9,13 +9,12 @@ class AMateria {
  protected:
   std::string type;
 
+ public:
   AMateria();
   AMateria(std::string const& type);
-
- public:
-  virtual ~AMateria();
   AMateria(const AMateria& materia);
   AMateria& operator=(AMateria& materia);
+  virtual ~AMateria();
 
   std::string const& getType() const;
   virtual void setType(std::string type);

@@ -35,7 +35,7 @@ int main() {
   std::string str;
   // tmp1 idea 값 바꾸기
   for (int i = 0; i < 10; i++) {
-    str = "SET" + std::to_string(i);
+    str = "SET";
     tmp1->getBrain()->setIdeas(i, str);
   }
   // tmp1 idea 값 출력
@@ -49,12 +49,12 @@ int main() {
   Cat* tmp3 = new Cat();
   *tmp3 = *tmp1;
   // (2) tmp2의 idea 값 변경 / tmp3의 idea 값 변경
-  for (int i = 0; i < 8; i++) {
-    str = "DEEP CHECK" + std::to_string(i);
+  for (int i = 0; i < 5; i++) {
+    str = "DEEP CHECK";
     tmp2->getBrain()->setIdeas(i, str);
   }
   for (int i = 0; i < 15; i++) {
-    str = "DEEP CHECK" + std::to_string(i);
+    str = "DEEP CHECK";
     tmp3->getBrain()->setIdeas(i, str);
   }
   // (3) tmp1, tmp2, tmp3 idea 값 확인
