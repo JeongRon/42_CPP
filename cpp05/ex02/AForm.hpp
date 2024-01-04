@@ -13,25 +13,23 @@ class AForm {
   bool signFlag;
   const int signGrade;
   const int executeGrade;
-  std::string target;
 
   /* Block */
   AForm();
   AForm& operator=(const AForm& other);
 
- public:
+ protected:
   /* Lifecycle Functions */
-  AForm(const std::string name, const int signGrade, const int executeGrade,
-        const std::string& target);
+  AForm(const std::string& name, const int& signGrade, const int& executeGrade);
   virtual ~AForm();
   AForm(const AForm& other);
 
+ public:
   /* Getter */
   const std::string& getName() const;
   const bool& getSignFlag() const;
   const int& getSignGrade() const;
   const int& getExecuteGrade() const;
-  const std::string& getTarget() const;
 
   /* Member Function */
   void beSigned(Bureaucrat& bureaucrat);
@@ -43,6 +41,9 @@ class AForm {
     const char* what() const throw();
   };
   class GradeTooLowException : public std::exception {
+    const char* what() const throw();
+  };
+  class NotSignedException : public std::exception {
     const char* what() const throw();
   };
 };

@@ -7,15 +7,19 @@
 
 class ShrubberyCreationForm : public AForm {
  private:
+  /* Block */
   ShrubberyCreationForm();
   ShrubberyCreationForm& operator=(const ShrubberyCreationForm& form);
 
  public:
-  ShrubberyCreationForm(const std::string& target);
+  /* Lifecycle Functions */
+  ShrubberyCreationForm(const std::string& name);
   ~ShrubberyCreationForm();
   ShrubberyCreationForm(const ShrubberyCreationForm& form);
 
+  /* Member Function */
   void execute(Bureaucrat const& executor) const;
+  void action(std::string const& target) const;
 };
 
 #endif

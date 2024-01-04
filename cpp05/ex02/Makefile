@@ -1,4 +1,4 @@
-NAME = Form
+NAME = AForm
 
 CPP = c++
 
@@ -6,10 +6,14 @@ CPPFLAGS = -Wall -Wextra -Werror -std=c++98
 
 HEADER = Bureaucrat.hpp \
 		AForm.hpp \
+		ShrubberyCreationForm.hpp \
+		RobotomyRequestForm.hpp \
 
 SRCS =  main.cpp \
 		Bureaucrat.cpp \
 		AForm.cpp \
+		ShrubberyCreationForm.cpp \
+		RobotomyRequestForm.cpp \
 
 OBJS = $(SRCS:%.cpp=%.o)
 

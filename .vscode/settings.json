@@ -72,6 +72,7 @@
         "stack": "cpp",
         "utility": "cpp",
         "__memory": "cpp",
-        "filesystem": "cpp"
+        "filesystem": "cpp",
+        "__functional_03": "cpp"
     }
 }
