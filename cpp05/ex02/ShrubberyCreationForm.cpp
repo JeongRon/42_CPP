@@ -27,7 +27,7 @@ void ShrubberyCreationForm::execute(Bureaucrat const& executor) const {
   // execute check
   if (this->getExecuteGrade() < executor.getGrade())
     throw AForm::GradeTooHighException();
-  // ShrubberyCreationForm execute
+  // ShrubberyCreationForm action
   ShrubberyCreationForm::action(executor.getName());
 }
 

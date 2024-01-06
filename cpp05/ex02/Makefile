@@ -8,12 +8,14 @@ HEADER = Bureaucrat.hpp \
 		AForm.hpp \
 		ShrubberyCreationForm.hpp \
 		RobotomyRequestForm.hpp \
+		PresidentialPardonForm.hpp \
 
 SRCS =  main.cpp \
 		Bureaucrat.cpp \
 		AForm.cpp \
 		ShrubberyCreationForm.cpp \
 		RobotomyRequestForm.cpp \
+		PresidentialPardonForm.cpp \
 
 OBJS = $(SRCS:%.cpp=%.o)
 
