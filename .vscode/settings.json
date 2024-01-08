@@ -74,6 +74,8 @@
         "__memory": "cpp",
         "filesystem": "cpp",
         "__functional_03": "cpp",
-        "execution": "cpp"
+        "execution": "cpp",
+        "serializer.hpp": "c",
+        "data.hpp": "c"
     }
 }
