@@ -1,6 +1,7 @@
 #ifndef CALCULATOR_HPP
 #define CALCULATOR_HPP
 
+#include <cctype>
 #include <cmath>
 #include <iomanip>
 #include <iostream>
