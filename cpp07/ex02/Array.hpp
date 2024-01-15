@@ -27,7 +27,7 @@ class Array {
     if (this->arraySize != 0) {
       this->array = new T[this->arraySize];
 
-      for (unsigned int index; index < this->arraySize; index++) {
+      for (unsigned int index = 0; index < this->arraySize; index++) {
         this->array[index] = other[index];
       }
     }
@@ -46,7 +46,7 @@ class Array {
         this->array = new T[this->arraySize];
       }
 
-      for (unsigned int index; index < this->arraySize; index++) {
+      for (unsigned int index = 0; index < this->arraySize; index++) {
         this->array[index] = other[index];
       }
     }
@@ -54,6 +54,11 @@ class Array {
   }
 
   T& operator[](unsigned int index) {
+    if (index < 0 || index > this->arraySize - 1) throw OutOfRange();
+    return this->array[index];
+  }
+
+  const T& operator[](unsigned int index) const {
     if (index < 0 || index > this->arraySize - 1) throw OutOfRange();
     return this->array[index];
   }
