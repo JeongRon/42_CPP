@@ -11,6 +11,13 @@ void iter(T* arr, unsigned int arrLength, void (*f)(T&)) {
 }
 
 template <typename T>
+void iter(T* arr, unsigned int arrLength, void (*f)(const T&)) {
+  for (unsigned int index = 0; index < arrLength; index++) {
+    f(arr[index]);
+  }
+}
+
+template <typename T>
 void print(T& str) {
   std::cout << str << std::endl;
 }
