@@ -76,6 +76,8 @@
         "__functional_03": "cpp",
         "execution": "cpp",
         "serializer.hpp": "c",
-        "data.hpp": "c"
+        "data.hpp": "c",
+        "__tree": "cpp",
+        "set": "cpp"
     }
 }
