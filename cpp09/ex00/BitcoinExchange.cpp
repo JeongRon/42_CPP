@@ -111,20 +111,16 @@ double BitcoinExchange::validateValue(std::string& valueString) {
     std::cerr << "Error: not a positive number." << std::endl;
     return -1;
   }
-  if (num > 1000) {
+  if ((valueString.length() > 10 && num > INT_MAX) || num > 1000) {
     std::cerr << "Error: too large a number." << std::endl;
     return -1;
   }
   return num;
-  // // TEST CODE
-  // std::cout << "num: " << num << std::endl;
-  // std::cout << "endptr: " << endptr << std::endl;
 }
 
 void BitcoinExchange::printResult(std::string& date, double& value,
                                   std::string& line) {
   double result = 0.0;
-  // same
   std::vector<std::pair<std::string, double> >::iterator it = data.begin();
   for (; it != data.end(); ++it) {
     if (it->first == date) {
@@ -133,7 +129,6 @@ void BitcoinExchange::printResult(std::string& date, double& value,
       return;
     }
   }
-  // near
   std::vector<std::pair<std::string, double> >::iterator lowerBound =
       std::lower_bound(data.begin(), data.end(),
                        std::pair<std::string, double>(date, 0.0));
