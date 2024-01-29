@@ -33,10 +33,6 @@ void BitcoinExchange::insertData() {
     data.push_back(std::pair<std::string, double>(date, exchangeRate));
   }
   inputData.close();
-  //   // TEST
-  //   for (std::size_t i = 0; i < data.size(); ++i) {
-  //     std::cout << data[i].first << "," << data[i].second << std::endl;
-  //   }
 }
 
 void BitcoinExchange::fileParsingAndPrinting(const char* fileName) {
@@ -52,17 +48,6 @@ void BitcoinExchange::fileParsingAndPrinting(const char* fileName) {
       std::string date = line.substr(0, 10);
       std::string partition = line.substr(10, 3);
       std::string valueString = line.substr(13);
-      // char* endptr;
-      // strtod(valueString.c_str(), &endptr);
-
-      // TEST CODE
-      // std::cout << "date : " << date << std::endl;
-      // std::cout << "partition : " << partition << std::endl;
-      // std::cout << "valueString : " << valueString << std::endl;
-      // if (!endptr)
-      //   std::cout << "value : Not a Number" << std::endl;
-      // else
-      //   std::cout << "value : " << value << std::endl;
 
       if (validateDate(date) == false) {
         std::cerr << "Error: invalid Date " << date << std::endl;
@@ -78,7 +63,6 @@ void BitcoinExchange::fileParsingAndPrinting(const char* fileName) {
       }
       printResult(date, value);
     }
-    // std::cout << "-----------------------" << std::endl;
   }
   inputFile.close();
 }
@@ -139,12 +123,20 @@ double BitcoinExchange::validateValue(std::string& valueString) {
 
 void BitcoinExchange::printResult(std::string& date, double value) {
   double result = 0.0;
-  std::vector<std::pair<std::string, double> >::iterator it;
-  for (it = data.begin(); it != data.end(); ++it) {
+  // same
+  std::vector<std::pair<std::string, double> >::iterator it = data.begin();
+  for (; it != data.end(); ++it) {
     if (it->first == date) {
       result = it->second * value;
-      std::cout << it->first << " => " << value << " = " << result << std::endl;
+      std::cout << date << " => " << value << " = " << result << std::endl;
       return;
     }
   }
+  // near
+  std::vector<std::pair<std::string, double> >::iterator lowerBound =
+      std::lower_bound(data.begin(), data.end(),
+                       std::pair<std::string, double>(date, 0.0));
+  --lowerBound;
+  result = lowerBound->second * value;
+  std::cout << date << " => " << value << " = " << result << std::endl;
 }
