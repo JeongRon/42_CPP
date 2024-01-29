@@ -61,7 +61,7 @@ void BitcoinExchange::fileParsingAndPrinting(const char* fileName) {
       if (value == -1) {
         continue;
       }
-      printResult(date, value);
+      printResult(date, value, line);
     }
   }
   inputFile.close();
@@ -121,7 +121,8 @@ double BitcoinExchange::validateValue(std::string& valueString) {
   // std::cout << "endptr: " << endptr << std::endl;
 }
 
-void BitcoinExchange::printResult(std::string& date, double value) {
+void BitcoinExchange::printResult(std::string& date, double& value,
+                                  std::string& line) {
   double result = 0.0;
   // same
   std::vector<std::pair<std::string, double> >::iterator it = data.begin();
@@ -136,6 +137,10 @@ void BitcoinExchange::printResult(std::string& date, double value) {
   std::vector<std::pair<std::string, double> >::iterator lowerBound =
       std::lower_bound(data.begin(), data.end(),
                        std::pair<std::string, double>(date, 0.0));
+  if (lowerBound == data.begin()) {
+    std::cerr << "Error: bad input => " << line << std::endl;
+    return;
+  }
   --lowerBound;
   result = lowerBound->second * value;
   std::cout << date << " => " << value << " = " << result << std::endl;

@@ -16,7 +16,7 @@ class BitcoinExchange {
   bool validateDate(std::string& date);
   bool validatePartition(std::string& partition);
   double validateValue(std::string& valueString);
-  void printResult(std::string& date, double value);
+  void printResult(std::string& date, double& value, std::string& line);
 
  public:
   BitcoinExchange();
