@@ -5,12 +5,12 @@
 #include <iostream>
 #include <map>
 #include <queue>
+#include <set>
 
 class PmergeMe {
  private:
-  std::deque<int> unorderedNumbers;
-  std::map<int, std::deque<int> > dequeMap;
-  std::map<int, std::queue<int> > queueMap;
+  std::map<int, int> pairMap;
+  int remain;
 
  public:
   /* OCF */
