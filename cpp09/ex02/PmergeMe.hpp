@@ -3,14 +3,11 @@
 
 #include <deque>
 #include <iostream>
-#include <map>
-#include <queue>
-#include <set>
+#include <utility>
 
 class PmergeMe {
  private:
-  std::map<int, int> pairMap;
-  int remain;
+  std::deque<int> unsortedContainer;
 
  public:
   /* OCF */
@@ -20,9 +17,11 @@ class PmergeMe {
   PmergeMe& operator=(const PmergeMe& other);
 
   /* Member Function */
-  void inputNumbers(int ac, char** av);  // unorderedNumbers
-  void mergeInsertSortDeque();           // merge_insert_sort deque
-  //   void mergeInsertSortQueue();           // merge_insert_sort queue
+  void executeDeque(int ac, char** av);
+  void dequeInputNumbers(int ac, char** av);
+  std::deque<int> dequeMergeInsertSort(
+      std::deque<std::pair<int, int> > dequePair);
+  std::deque<int> dequeJacobsthal(std::deque<int> insertDeque);
 };
 
 #endif

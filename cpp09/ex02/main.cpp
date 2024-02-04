@@ -7,8 +7,7 @@ int main(int ac, char** av) {
     } else {
       // execute
       PmergeMe pmerge;
-      pmerge.inputNumbers(ac, av);
-      //   pmerge.mergeInsertSortDeque();
+      pmerge.executeDeque(ac, av);
       //   pmerge.mergeInsertSortQueue();
     }
   } catch (const std::exception& e) {

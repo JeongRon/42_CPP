@@ -13,10 +13,37 @@ PmergeMe& PmergeMe::operator=(const PmergeMe& other) {
 }
 
 /* Member Function */
-void PmergeMe::inputNumbers(int ac, char** av) {
-  std::set<int> dupCheck;
-  std::queue<int> unorderedNumbers;
+void PmergeMe::executeDeque(int ac, char** av) {
+  PmergeMe::dequeInputNumbers(ac, av);
 
+  if (unsortedContainer.size() <= 1)
+    return;  // print
+             // (1) make pair
+  std::deque<std::pair<int, int> > dequePair;
+  std::deque<int>::iterator it = unsortedContainer.begin();
+  int pairA, pairB;
+  int remain = -1;
+
+  if (unsortedContainer.size() % 2 == 1) remain = unsortedContainer.back();
+
+  for (; it != unsortedContainer.end() && (it + 1) != unsortedContainer.end();
+       it += 2) {
+    pairA = *it;
+    pairB = *(it + 1);
+    if (pairA > pairB)
+      dequePair.push_back(std::pair<int, int>(pairA, pairB));
+    else
+      dequePair.push_back(std::pair<int, int>(pairB, pairA));
+  }
+
+  std::deque<int> sortedContainer = PmergeMe::dequeMergeInsertSort(dequePair);
+
+  // remain 있으면 sortedContainer에 마지막으로 넣기
+
+  // PRINT
+}
+
+void PmergeMe::dequeInputNumbers(int ac, char** av) {
   for (int i = 1; i < ac; i++) {
     for (int j = 0;; j++) {
       if (av[i][j] == '\0') break;
@@ -33,47 +60,75 @@ void PmergeMe::inputNumbers(int ac, char** av) {
 
     int pushNumber = static_cast<int>(number);
 
-    std::set<int>::iterator it = dupCheck.find(number);
-    if (it != dupCheck.end()) {
+    std::deque<int>::iterator it = std::find(
+        unsortedContainer.begin(), unsortedContainer.end(), pushNumber);
+    if (it != unsortedContainer.end()) {
       throw std::runtime_error("Error: duplicate number");
     }
-    dupCheck.insert(number);
-    unorderedNumbers.push(pushNumber);
-  }
-
-  // std::cout << "-------------- [unorderedNumbers] --------------" <<
-  // std::endl; while (!unorderedNumbers.empty()) {
-  //   std::cout << unorderedNumbers.front() << " ";
-  //   unorderedNumbers.pop();  // 맨 앞 요소 제거
-  // }
-  // std::cout << std::endl;
-  // std::cout << "-----------------------------------------------" <<
-  // std::endl;
-
-  while (true) {
-    std::size_t size = unorderedNumbers.size();
-    if (size >= 2) {
-      int a = unorderedNumbers.front();
-      unorderedNumbers.pop();
-      int b = unorderedNumbers.front();
-      unorderedNumbers.pop();
-      pairMap[a] = b;
-      // std::cout << "Map -> key: " << a << " / value: " << pairMap[a]
-      //           << std::endl;
-    } else if (size == 1) {
-      remain = unorderedNumbers.front();
-      unorderedNumbers.pop();
-      // std::cout << "Remain -> " << remain << std::endl;
-      break;
-    } else {
-      remain = -1;
-      // std::cout << "NOT Remain" << std::endl;
-      break;
-    }
+    unsortedContainer.push_back(number);
   }
 }
 
-void PmergeMe::mergeInsertSortDeque() {
-  // deque map 넣기
-  // 계산 하기?
+std::deque<int> PmergeMe::dequeMergeInsertSort(
+    std::deque<std::pair<int, int> > dequePair) {
+  std::deque<int> insertDeque;
+  std::deque<std::pair<int, int> >::iterator iter = dequePair.begin();
+
+  // stop point
+  if (dequePair.size() == 1) {
+    insertDeque.push_back(iter->first);
+    insertDeque.push_back(iter->second);
+    return insertDeque;
+  } else {
+    // dequePair 에서 더 divide
+    std::deque<std::pair<int, int> > nowPair;
+    int pairA, pairB;
+    int remain = -1;
+    for (; iter != dequePair.end() && (iter + 1) != dequePair.end();
+         iter += 2) {
+      // dequePair에서 2개씩 추출해서 nowPair에 넣기
+      pairA = iter->first;
+      pairB = (iter + 1)->first;
+      if (pairA > pairB)
+        nowPair.push_back(std::pair<int, int>(pairA, pairB));
+      else
+        nowPair.push_back(std::pair<int, int>(pairB, pairA));
+    }
+    // remain
+    if (iter != dequePair.end()) {
+      remain = iter->first;
+    }
+    insertDeque = dequeMergeInsertSort(nowPair);
+    // 받은 isertDeque를 야콥스탈 활용 -> pairB를 insert 후 리턴
+    std::deque<int> order = PmergeMe::dequeJacobsthal(insertDeque);
+    // dequePair에서 order 의 요소값들 찾아서 insert
+    std::deque<int>::iterator orderIter = order.begin();
+    for (; orderIter != order.end(); orderIter++) {
+      int pairA = *orderIter;
+      // iter = dequePair.find(pairA); // 여기부터
+      // int pairB =
+    }
+    return insertDeque;
+  }
+}
+
+std::deque<int> PmergeMe::dequeJacobsthal(std::deque<int> insertDeque) {
+  std::deque<int> jacobsthalDeque;
+  int count = insertDeque.size();
+  int jacobsthalA = 1;
+  int jacobsthalB = 1;
+  int jacobsthalNum = -1;
+
+  jacobsthalDeque.push_back(insertDeque[0]);
+  while (jacobsthalNum != count) {
+    jacobsthalNum = jacobsthalA * 2 + jacobsthalB;
+    jacobsthalA = jacobsthalB;
+    jacobsthalB = jacobsthalNum;
+    if (jacobsthalNum >= count) jacobsthalNum = count;
+
+    for (int i = jacobsthalNum; jacobsthalA < i; i--) {
+      jacobsthalDeque.push_back(insertDeque[i - 1]);
+    }
+  }
+  return jacobsthalDeque;
 }
