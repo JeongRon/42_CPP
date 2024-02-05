@@ -1,6 +1,9 @@
 #ifndef PMERGEME_HPP
 #define PMERGEME_HPP
 
+#include <algorithm>
+#include <climits>
+#include <cstdlib>
 #include <ctime>
 #include <deque>
 #include <iostream>

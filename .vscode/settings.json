@@ -78,6 +78,9 @@
         "serializer.hpp": "c",
         "data.hpp": "c",
         "__tree": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "map": "cpp",
+        "queue": "cpp",
+        "list": "cpp"
     }
 }
