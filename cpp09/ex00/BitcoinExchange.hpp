@@ -4,12 +4,11 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
-#include <utility>
-#include <vector>
+#include <map>
 
 class BitcoinExchange {
  private:
-  std::vector<std::pair<std::string, double> > data;
+  std::map<std::string, double> data;
 
   void insertData();
 

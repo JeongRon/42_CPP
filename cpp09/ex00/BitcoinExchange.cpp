@@ -30,7 +30,7 @@ void BitcoinExchange::insertData() {
     std::string date = line.substr(0, 10);
     std::string exchangeRateString = line.substr(11);
     double exchangeRate = strtod(exchangeRateString.c_str(), NULL);
-    data.push_back(std::pair<std::string, double>(date, exchangeRate));
+    data[date] = exchangeRate;
   }
   inputData.close();
 }
@@ -121,20 +121,17 @@ double BitcoinExchange::validateValue(std::string& valueString) {
 void BitcoinExchange::printResult(std::string& date, double& value,
                                   std::string& line) {
   double result = 0.0;
-  std::vector<std::pair<std::string, double> >::iterator it = data.begin();
-  for (; it != data.end(); ++it) {
-    if (it->first == date) {
-      result = it->second * value;
-      std::cout << date << " => " << value << " = " << result << std::endl;
-      return;
-    }
+
+  std::map<std::string, double>::iterator it = data.find(date);
+  if (it != data.end()) {
+    result = it->second * value;
+    std::cout << date << " => " << value << " = " << result << std::endl;
+    return;
   }
-  std::vector<std::pair<std::string, double> >::iterator lowerBound =
-      std::lower_bound(data.begin(), data.end(),
-                       std::pair<std::string, double>(date, 0.0));
+
+  std::map<std::string, double>::iterator lowerBound = data.lower_bound(date);
   if (lowerBound == data.begin()) {
     std::cerr << "Error: bad input => " << line << std::endl;
-    return;
   }
   --lowerBound;
   result = lowerBound->second * value;
