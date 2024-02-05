@@ -5,10 +5,8 @@ int main(int ac, char** av) {
     if (ac < 2) {
       throw std::runtime_error("Error: empty numbers");
     } else {
-      // execute
       PmergeMe pmerge;
-      pmerge.executeDeque(ac, av);
-      //   pmerge.mergeInsertSortQueue();
+      pmerge.execute(ac, av);
     }
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
