@@ -132,6 +132,7 @@ void BitcoinExchange::printResult(std::string& date, double& value,
   std::map<std::string, double>::iterator lowerBound = data.lower_bound(date);
   if (lowerBound == data.begin()) {
     std::cerr << "Error: bad input => " << line << std::endl;
+    return;
   }
   --lowerBound;
   result = lowerBound->second * value;

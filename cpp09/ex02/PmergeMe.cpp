@@ -38,7 +38,6 @@ void PmergeMe::executeDeque(int ac, char** av) {
   }
 
   sortedDeque = PmergeMe::dequeMergeInsertSort(dequePair);
-
   if (remain != -1)
     PmergeMe::dequeInsertPairB(sortedDeque, remain, 0, sortedDeque.size() - 1);
 }
@@ -74,6 +73,15 @@ std::deque<int> PmergeMe::dequeMergeInsertSort(
   std::deque<int> insertDeque;
   std::deque<std::pair<int, int> >::iterator iter = dequePair.begin();
 
+  // // TEST
+  // std::cout << "------ dequePair -------" << std::endl;
+  // std::deque<std::pair<int, int> >::iterator test = dequePair.begin();
+  // for (; test != dequePair.end(); test++) {
+  //   std::cout << test->first << " " << test->second << std::endl;
+  // }
+  // std::cout << "-----------------------" << std::endl;
+  // // TEST
+
   // stop point
   if (dequePair.size() == 1) {
     insertDeque.push_back(iter->second);
@@ -100,10 +108,30 @@ std::deque<int> PmergeMe::dequeMergeInsertSort(
   }
   // 재귀로 insertDeque 받아오기
   insertDeque = dequeMergeInsertSort(nowPair);
+  // // TEST
+  // std::cout << "------ (GET)insertDeque -------" << std::endl;
+  // std::deque<int>::iterator ppp = insertDeque.begin();
+  // for (; ppp != insertDeque.end(); ppp++) {
+  //   std::cout << *ppp << " ";
+  // }
+  // std::cout << std::endl;
+  // std::cout << "-----------------------" << std::endl;
+  // // TEST
   if (remain != -1)
     PmergeMe::dequeInsertPairB(insertDeque, remain, 0, insertDeque.size() - 1);
+  // // TEST
+  // std::cout << "------ (REMAIN)insertDeque : " << remain << " -------"
+  //           << std::endl;
+  // ppp = insertDeque.begin();
+  // for (; ppp != insertDeque.end(); ppp++) {
+  //   std::cout << *ppp << " ";
+  // }
+  // std::cout << std::endl;
+  // std::cout << "-----------------------" << std::endl;
+  // // TEST
   std::deque<int> order = PmergeMe::dequeJacobsthal(insertDeque);
   std::deque<int>::iterator orderIter = order.begin();
+  bool frontFlag = true;
   for (; orderIter != order.end(); orderIter++) {
     pairA = *orderIter;
 
@@ -114,14 +142,32 @@ std::deque<int> PmergeMe::dequeMergeInsertSort(
         break;
       }
     }
-    if (pairIter == dequePair.begin())
+    if (frontFlag) {
       insertDeque.push_front(pairB);
-    else {
+      frontFlag = false;
+    } else {
       std::deque<int>::iterator it =
           std::find(insertDeque.begin(), insertDeque.end(), pairA);
       int high = it - insertDeque.begin();
-      PmergeMe::dequeInsertPairB(insertDeque, pairB, 0, high);
+      // // TEST
+      // std::cout << "------------------" << std::endl;
+      // std::cout << "pairA : " << pairA << std::endl;
+      // std::cout << "pairB : " << pairB << std::endl;
+      // std::cout << "high : " << high << std::endl;
+      // std::cout << "------------------" << std::endl;
+      // // TEST
+      PmergeMe::dequeInsertPairB(insertDeque, pairB, 0, high - 1);
     }
+    // // TEST
+    // std::cout << "------ (PUSH) insertDeque : " << pairB << " -------"
+    //           << std::endl;
+    // std::deque<int>::iterator aaa = insertDeque.begin();
+    // for (; aaa != insertDeque.end(); aaa++) {
+    //   std::cout << *aaa << " ";
+    // }
+    // std::cout << std::endl;
+    // std::cout << "-----------------------" << std::endl;
+    // // TEST
   }
   return insertDeque;
 }
@@ -144,24 +190,36 @@ std::deque<int> PmergeMe::dequeJacobsthal(std::deque<int> insertDeque) {
       jacobsthalDeque.push_back(insertDeque[i - 1]);
     }
   }
+  // // TEST
+  // std::cout << "-------- jacobsthal --------" << std::endl;
+  // std::deque<int>::iterator tt = jacobsthalDeque.begin();
+  // for (; tt != jacobsthalDeque.end(); tt++) {
+  //   std::cout << *tt << " ";
+  // }
+  // std::cout << std::endl;
+  // std::cout << "-----------------------" << std::endl;
+  // // TEST
   return jacobsthalDeque;
 }
 
 void PmergeMe::dequeInsertPairB(std::deque<int>& insertDeque, int pairB,
                                 int low, int high) {
   // stop point
+  if (high == low) {
+    if (insertDeque[high] > pairB)
+      insertDeque.insert(insertDeque.begin() + high, pairB);
+    else if (insertDeque[high] < pairB)
+      insertDeque.insert(insertDeque.begin() + high + 1, pairB);
+    return;
+  }
   int mid = (low + high) / 2;
-  if (insertDeque[mid] > pairB)
+  if (pairB < insertDeque[mid]) {
     PmergeMe::dequeInsertPairB(insertDeque, pairB, low, mid);
-  else if (insertDeque[mid] < pairB) {
-    if (mid == low) {
-      if (insertDeque[high] < pairB)
-        insertDeque.insert(insertDeque.end(), pairB);
-      else
-        insertDeque.insert(insertDeque.begin() + low + 1, pairB);
-      return;
-    }
-    PmergeMe::dequeInsertPairB(insertDeque, pairB, mid, high);
+  } else if (insertDeque[mid] < pairB) {
+    if (mid == low)
+      PmergeMe::dequeInsertPairB(insertDeque, pairB, mid + 1, high);
+    else
+      PmergeMe::dequeInsertPairB(insertDeque, pairB, mid, high);
   }
 }
 
@@ -191,7 +249,6 @@ void PmergeMe::executeVector(int ac, char** av) {
   }
 
   sortedVector = PmergeMe::vectorMergeInsertSort(vectorPair);
-
   if (remain != -1)
     PmergeMe::vectorInsertPairB(sortedVector, remain, 0,
                                 sortedVector.size() - 1);
@@ -261,6 +318,7 @@ std::vector<int> PmergeMe::vectorMergeInsertSort(
   // insertVector 안에 pairB 추가하기
   std::vector<int> order = PmergeMe::vectorJacobsthal(insertVector);
   std::vector<int>::iterator orderIter = order.begin();
+  bool frontFlag = true;
   for (; orderIter != order.end(); orderIter++) {
     pairA = *orderIter;
 
@@ -271,13 +329,14 @@ std::vector<int> PmergeMe::vectorMergeInsertSort(
         break;
       }
     }
-    if (pairIter == vectorPair.begin())
+    if (frontFlag) {
       insertVector.insert(insertVector.begin(), pairB);
-    else {
+      frontFlag = false;
+    } else {
       std::vector<int>::iterator it =
           std::find(insertVector.begin(), insertVector.end(), pairA);
       int high = it - insertVector.begin();
-      PmergeMe::vectorInsertPairB(insertVector, pairB, 0, high);
+      PmergeMe::vectorInsertPairB(insertVector, pairB, 0, high - 1);
     }
   }
   return insertVector;
@@ -307,18 +366,21 @@ std::vector<int> PmergeMe::vectorJacobsthal(std::vector<int> insertVector) {
 void PmergeMe::vectorInsertPairB(std::vector<int>& insertVector, int pairB,
                                  int low, int high) {
   // stop point
+  if (high == low) {
+    if (insertVector[high] > pairB)
+      insertVector.insert(insertVector.begin() + high, pairB);
+    else if (insertVector[high] < pairB)
+      insertVector.insert(insertVector.begin() + high + 1, pairB);
+    return;
+  }
   int mid = (low + high) / 2;
-  if (insertVector[mid] > pairB)
+  if (pairB < insertVector[mid]) {
     PmergeMe::vectorInsertPairB(insertVector, pairB, low, mid);
-  else if (insertVector[mid] < pairB) {
-    if (mid == low) {
-      if (insertVector[high] < pairB)
-        insertVector.insert(insertVector.end(), pairB);
-      else
-        insertVector.insert(insertVector.begin() + low + 1, pairB);
-      return;
-    }
-    PmergeMe::vectorInsertPairB(insertVector, pairB, mid, high);
+  } else if (insertVector[mid] < pairB) {
+    if (mid == low)
+      PmergeMe::vectorInsertPairB(insertVector, pairB, mid + 1, high);
+    else
+      PmergeMe::vectorInsertPairB(insertVector, pairB, mid, high);
   }
 }
 
@@ -342,14 +404,17 @@ void PmergeMe::execute(int ac, char** av) {
 
 void PmergeMe::printResult() {
   if (sortedDeque.size() != sortedVector.size())
-    throw std::runtime_error("sorted check error");
+    throw std::runtime_error("sorted check size error");
 
   std::deque<int>::iterator iterDeque = sortedDeque.begin();
   std::vector<int>::iterator iterVector = sortedVector.begin();
   for (; iterDeque != sortedDeque.end() && iterVector != sortedVector.end();
        iterDeque++, iterVector++) {
+    // TEST
+    // std::cout << *iterDeque << " " << *iterVector << std::endl;
+    // TEST
     if (*iterDeque != *iterVector)
-      throw std::runtime_error("sorted check error");
+      throw std::runtime_error("sorted check order error");
   }
 
   // PRINT
