@@ -14,30 +14,31 @@ class PmergeMe {
  private:
   double dequeTime;
   std::deque<int> unsortedDeque;
-  std::deque<int> sortedDeque;
+  std::deque<std::pair<int, std::deque<int> > > sortedDeque;
+  std::deque<std::pair<int, std::deque<int> > > dequePair;
   double vectorTime;
   std::vector<int> unsortedVector;
-  std::vector<int> sortedVector;
+  std::vector<std::pair<int, std::vector<int> > > sortedVector;
+  std::vector<std::pair<int, std::vector<int> > > vectorPair;
 
   /* Deque */
-  void executeDeque(int ac, char** av);
   void dequeInputNumbers(int ac, char** av);
-  std::deque<int> dequeMergeInsertSort(
-      std::deque<std::pair<int, int> > dequePair);
-  std::deque<int> dequeJacobsthal(std::deque<int> insertDeque);
-  void dequeInsertPairB(std::deque<int>& insertDeque, int pairB, int low,
-                        int high);
-  /* Vector */
-  void executeVector(int ac, char** av);
-  void vectorInputNumbers(int ac, char** av);
-  std::vector<int> vectorMergeInsertSort(
-      std::vector<std::pair<int, int> > vectorPair);
-  std::vector<int> vectorJacobsthal(std::vector<int> insertVector);
-  void vectorInsertPairB(std::vector<int>& insertVector, int pairB, int low,
-                         int high);
+  void dequeMergeInsertSort(int dequeCount);
+  void dequeInsertPair(std::pair<int, std::deque<int> > insertPair, int pairB,
+                       int low, int high);
+  std::deque<int> dequeJacobsthalIndex(int point);
 
-  /* Print */
-  void printResult();
+  // /* Vector */
+  // void executeVector(int ac, char** av);
+  // void vectorInputNumbers(int ac, char** av);
+  // std::vector<int> vectorMergeInsertSort(
+  //     std::vector<std::pair<int, int>> vectorPair);
+  // std::vector<int> vectorJacobsthal(std::vector<int> insertVector);
+  // void vectorInsertPairB(std::vector<int>& insertVector, int pairB, int low,
+  //                        int high);
+
+  // /* Print */
+  // void printResult();
 
  public:
   /* OCF */
@@ -47,6 +48,7 @@ class PmergeMe {
   PmergeMe& operator=(const PmergeMe& other);
 
   /* Member Function */
+  void executeDeque(int ac, char** av);
   void execute(int ac, char** av);
 };
 
