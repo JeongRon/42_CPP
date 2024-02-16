@@ -360,7 +360,7 @@ void PmergeMe::execute(int ac, char** av) {
 }
 
 void PmergeMe::printResult() {
-  if (dequePair.size() != sortedVector.size())
+  if (sortedDeque.size() != sortedVector.size())
     throw std::runtime_error("sorted check size error");
 
   std::deque<std::pair<int, std::deque<int> > >::iterator iterDeque =
@@ -381,9 +381,15 @@ void PmergeMe::printResult() {
   }
   std::cout << std::endl;
   std::cout << "After:  ";
-  for (iterDeque = sortedDeque.begin(); iterDeque != sortedDeque.end();
-       iterDeque++) {
-    std::cout << iterDeque->first << " ";
+  if (unsortedDeque.size() == 1 && unsortedVector.size() == 1) {
+    for (it = unsortedDeque.begin(); it != unsortedDeque.end(); it++) {
+      std::cout << *it << " ";
+    }
+  } else {
+    for (iterDeque = sortedDeque.begin(); iterDeque != sortedDeque.end();
+         iterDeque++) {
+      std::cout << iterDeque->first << " ";
+    }
   }
   std::cout << std::endl;
   std::cout << "Time to process a range of " << sortedDeque.size()
