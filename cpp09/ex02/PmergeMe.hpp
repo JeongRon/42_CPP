@@ -22,23 +22,23 @@ class PmergeMe {
   std::vector<std::pair<int, std::vector<int> > > vectorPair;
 
   /* Deque */
+  void executeDeque(int ac, char** av);
   void dequeInputNumbers(int ac, char** av);
-  void dequeMergeInsertSort(int dequeCount);
+  void dequeMergeInsertSort(int pairCount);
   void dequeInsertPair(std::pair<int, std::deque<int> > insertPair, int pairB,
                        int low, int high);
   std::deque<int> dequeJacobsthalIndex(int point);
 
   // /* Vector */
-  // void executeVector(int ac, char** av);
-  // void vectorInputNumbers(int ac, char** av);
-  // std::vector<int> vectorMergeInsertSort(
-  //     std::vector<std::pair<int, int>> vectorPair);
-  // std::vector<int> vectorJacobsthal(std::vector<int> insertVector);
-  // void vectorInsertPairB(std::vector<int>& insertVector, int pairB, int low,
-  //                        int high);
+  void executeVector(int ac, char** av);
+  void vectorInputNumbers(int ac, char** av);
+  void vectorMergeInsertSort(int pairCount);
+  void vectorInsertPair(std::pair<int, std::vector<int> > insertPair, int pairB,
+                        int low, int high);
+  std::vector<int> vectorJacobsthalIndex(int point);
 
   // /* Print */
-  // void printResult();
+  void printResult();
 
  public:
   /* OCF */
@@ -47,9 +47,8 @@ class PmergeMe {
   PmergeMe(const PmergeMe& other);
   PmergeMe& operator=(const PmergeMe& other);
 
-  /* Member Function */
-  void executeDeque(int ac, char** av);
   void execute(int ac, char** av);
+  /* Member Function */
 };
 
 #endif

@@ -14,15 +14,15 @@ PmergeMe& PmergeMe::operator=(const PmergeMe& other) {
 
 /* Deque */
 void PmergeMe::executeDeque(int ac, char** av) {
-  PmergeMe::dequeInputNumbers(ac, av);
+  dequeInputNumbers(ac, av);
 
-  int dequeCount = dequePair.size();
+  int pairCount = dequePair.size();
 
-  if (dequeCount == 1) {
+  if (pairCount == 1) {
     return;
   }
   // search && push - pairA, pairB
-  int indexPairB = dequeCount / 2;
+  int indexPairB = pairCount / 2;
   int pairA, pairB;
   for (int i = 0; i < indexPairB; i++) {
     pairA = dequePair[i].first;
@@ -35,24 +35,12 @@ void PmergeMe::executeDeque(int ac, char** av) {
     }
   }
   // recursive
-  dequeMergeInsertSort(dequeCount / 2);
+  dequeMergeInsertSort(pairCount / 2);
   // insert remain
-  if (dequeCount % 2 == 1) {
-    std::pair<int, std::deque<int> > insertPair = dequePair[dequeCount - 1];
+  if (pairCount % 2 == 1) {
+    std::pair<int, std::deque<int> > insertPair = dequePair[pairCount - 1];
     dequeInsertPair(insertPair, insertPair.first, 0, sortedDeque.size() - 1);
   }
-
-  // // TEST CODE
-  // std::deque<std::pair<int, std::deque<int> > >::iterator it;
-  // for (it = sortedDeque.begin(); it != sortedDeque.end(); it++) {
-  //   std::cout << it->first << " : [ ";
-  //   for (std::deque<int>::iterator innerIt = it->second.begin();
-  //        innerIt != it->second.end(); ++innerIt) {
-  //     std::cout << *innerIt << ", ";
-  //   }
-  //   std::cout << " ]" << std::endl;
-  // }
-  // // TEST CODE
 }
 
 void PmergeMe::dequeInputNumbers(int ac, char** av) {
@@ -88,31 +76,16 @@ void PmergeMe::dequeInputNumbers(int ac, char** av) {
     throw std::runtime_error("Error: too many numbers (lower count -> 100000)");
 }
 
-void PmergeMe::dequeMergeInsertSort(int dequeCount) {
+void PmergeMe::dequeMergeInsertSort(int pairCount) {
   // stop point
-  if (dequeCount == 1) {
-    // << TEST CODE
-    std::cout << "--------- release start / dequePair ----------" << std::endl;
-    std::deque<std::pair<int, std::deque<int> > >::iterator it;
-    for (it = dequePair.begin(); it != dequePair.end(); it++) {
-      std::cout << it->first << " : [ ";
-      for (std::deque<int>::iterator innerIt = it->second.begin();
-           innerIt != it->second.end(); ++innerIt) {
-        std::cout << *innerIt << ", ";
-      }
-      std::cout << " ]" << std::endl;
-    }
-    std::cout << "---------------------------------------------" << std::endl;
-    // TEST CODE >>
-
+  if (pairCount == 1) {
     sortedDeque.push_back(dequePair[1]);
     dequePair[0].second.pop_back();
     sortedDeque.push_back(dequePair[0]);
     return;
   }
-
   // search && push - pairA, pairB
-  int indexPairB = dequeCount / 2;
+  int indexPairB = pairCount / 2;
   int pairA, pairB;
   for (int i = 0; i < indexPairB; i++) {
     pairA = dequePair[i].first;
@@ -124,44 +97,16 @@ void PmergeMe::dequeMergeInsertSort(int dequeCount) {
       dequePair[i].second.push_back(pairA);
     }
   }
-
-  // divide
-  dequeMergeInsertSort(dequeCount / 2);
-
-  // TEST CODE
-  std::cout << "--------- sortedDeque -----------" << std::endl;
-  std::deque<std::pair<int, std::deque<int> > >::iterator test;
-  for (test = sortedDeque.begin(); test != sortedDeque.end(); test++) {
-    std::cout << test->first << " : [ ";
-    for (std::deque<int>::iterator innerIt = test->second.begin();
-         innerIt != test->second.end(); ++innerIt) {
-      std::cout << *innerIt << ", ";
-    }
-    std::cout << " ]" << std::endl;
-  }
-  // TEST CODE
-
-  std::pair<int, std::deque<int> > insertPair;
+  // recursive
+  dequeMergeInsertSort(pairCount / 2);
   // insert - remain
-  if (dequeCount % 2 == 1) {
-    insertPair = dequePair[dequeCount - 1];
+  std::pair<int, std::deque<int> > insertPair;
+  if (pairCount % 2 == 1) {
+    insertPair = dequePair[pairCount - 1];
     dequeInsertPair(insertPair, insertPair.first, 0, sortedDeque.size() - 1);
-    // TEST CODE
-    std::cout << "------ add remain - sortedDeque ------" << std::endl;
-    std::deque<std::pair<int, std::deque<int> > >::iterator test;
-    for (test = sortedDeque.begin(); test != sortedDeque.end(); test++) {
-      std::cout << test->first << " : [ ";
-      for (std::deque<int>::iterator innerIt = test->second.begin();
-           innerIt != test->second.end(); ++innerIt) {
-        std::cout << *innerIt << ", ";
-      }
-      std::cout << " ]" << std::endl;
-    }
-    std::cout << "--------------------------------------" << std::endl;
-    // TEST CODE
   }
   // insert - pair
-  std::deque<int> jacobsthal = dequeJacobsthalIndex(dequeCount);
+  std::deque<int> jacobsthal = dequeJacobsthalIndex(pairCount);
   std::deque<int>::iterator iterIndex;
   for (iterIndex = jacobsthal.begin(); iterIndex != jacobsthal.end();
        iterIndex++) {
@@ -170,7 +115,7 @@ void PmergeMe::dequeMergeInsertSort(int dequeCount) {
   }
 }
 
-std::deque<int> PmergeMe::dequeJacobsthalIndex(int dequeCount) {
+std::deque<int> PmergeMe::dequeJacobsthalIndex(int pairCount) {
   std::deque<int> jacobsthalDeque;
   int jacobsthalNum = 1;
   int jacobA = 1;
@@ -181,13 +126,12 @@ std::deque<int> PmergeMe::dequeJacobsthalIndex(int dequeCount) {
   int point_index;
 
   while (true) {
-    point_index = dequeCount;
+    point_index = pairCount;
     pairB = sortedDeque[jacobsthalNum - 1].second.back();
     sortedDeque[jacobsthalNum - 1].second.pop_back();
 
-    // pairB가 dequePair에서 pairA인 위치 찾기 -> point_index
     std::deque<std::pair<int, std::deque<int> > >::iterator it;
-    for (it = dequePair.begin() + dequeCount; it != dequePair.end();
+    for (it = dequePair.begin() + pairCount; it != dequePair.end();
          it++, point_index++) {
       if (it->first == pairB) {
         jacobsthalDeque.push_back(point_index);
@@ -195,15 +139,14 @@ std::deque<int> PmergeMe::dequeJacobsthalIndex(int dequeCount) {
       }
     }
 
-    // 야콥 스타일 순서 갱신
     if (jacobsthalNum == 1 || jacobsthalNum == jacobA + 1) {
       if (finish) break;
       jacobTmp = jacobA * 2 + jacobB;
       jacobA = jacobB;
       jacobB = jacobTmp;
       jacobsthalNum = jacobB;
-      if (jacobsthalNum - 1 >= dequeCount - 1) {
-        jacobsthalNum = dequeCount;
+      if (jacobsthalNum - 1 >= pairCount - 1) {
+        jacobsthalNum = pairCount;
         finish = true;
       }
     } else {
@@ -225,230 +168,228 @@ void PmergeMe::dequeInsertPair(std::pair<int, std::deque<int> > insertPair,
   }
   int mid = (low + high) / 2;
   if (pairB < sortedDeque[mid].first) {
-    PmergeMe::dequeInsertPair(insertPair, pairB, low, mid);
+    dequeInsertPair(insertPair, pairB, low, mid);
   } else if (sortedDeque[mid].first < pairB) {
     if (mid == low)
-      PmergeMe::dequeInsertPair(insertPair, pairB, mid + 1, high);
+      dequeInsertPair(insertPair, pairB, mid + 1, high);
     else
-      PmergeMe::dequeInsertPair(insertPair, pairB, mid, high);
+      dequeInsertPair(insertPair, pairB, mid, high);
   }
 }
 
-// /* Vector */
-// void PmergeMe::executeVector(int ac, char** av) {
-//   PmergeMe::vectorInputNumbers(ac, av);
+/* Vector */
+void PmergeMe::executeVector(int ac, char** av) {
+  vectorInputNumbers(ac, av);
 
-//   if (unsortedVector.size() == 1) {
-//     sortedVector.push_back(unsortedVector[0]);
-//     return;
-//   }
-//   std::vector<std::pair<int, int>> vectorPair;
-//   std::vector<int>::iterator it = unsortedVector.begin();
-//   int pairA, pairB;
-//   int remain = -1;
+  int pairCount = vectorPair.size();
 
-//   if (unsortedVector.size() % 2 == 1) remain = unsortedVector.back();
+  if (pairCount == 1) {
+    return;
+  }
+  // search && push - pairA, pairB
+  int indexPairB = pairCount / 2;
+  int pairA, pairB;
+  for (int i = 0; i < indexPairB; i++) {
+    pairA = vectorPair[i].first;
+    pairB = vectorPair[i + indexPairB].first;
+    if (pairA > pairB) {
+      vectorPair[i].second.push_back(pairB);
+    } else {
+      vectorPair[i].swap(vectorPair[i + indexPairB]);
+      vectorPair[i].second.push_back(pairA);
+    }
+  }
+  // recursive
+  vectorMergeInsertSort(pairCount / 2);
+  // insert remain
+  if (pairCount % 2 == 1) {
+    std::pair<int, std::vector<int> > insertPair = vectorPair[pairCount - 1];
+    vectorInsertPair(insertPair, insertPair.first, 0, sortedDeque.size() - 1);
+  }
+}
 
-//   for (; it != unsortedVector.end() && (it + 1) != unsortedVector.end();
-//        it += 2) {
-//     pairA = *it;
-//     pairB = *(it + 1);
-//     if (pairA > pairB)
-//       vectorPair.push_back(std::pair<int, int>(pairA, pairB));
-//     else
-//       vectorPair.push_back(std::pair<int, int>(pairB, pairA));
-//   }
+void PmergeMe::vectorInputNumbers(int ac, char** av) {
+  for (int i = 1; i < ac; i++) {
+    for (int j = 0;; j++) {
+      if (av[i][j] == '\0') break;
 
-//   sortedVector = PmergeMe::vectorMergeInsertSort(vectorPair);
-//   if (remain != -1)
-//     PmergeMe::vectorInsertPairB(sortedVector, remain, 0,
-//                                 sortedVector.size() - 1);
-// }
+      if (av[i][j] < 48 || av[i][j] > 57)
+        throw std::runtime_error("Error: not a number");
+    }
 
-// void PmergeMe::vectorInputNumbers(int ac, char** av) {
-//   for (int i = 1; i < ac; i++) {
-//     for (int j = 0;; j++) {
-//       if (av[i][j] == '\0') break;
+    char* endptr;
+    double number = strtod(av[i], &endptr);
+    if (*endptr != '\0') throw std::runtime_error("Error: invalid number");
+    if (number < 0) throw std::runtime_error("Error: negative number");
+    if (number > INT_MAX) throw std::runtime_error("Error: INT_MAX number");
 
-//       if (av[i][j] < 48 || av[i][j] > 57)
-//         throw std::runtime_error("Error: not a number");
-//     }
+    int pushNumber = static_cast<int>(number);
 
-//     char* endptr;
-//     double number = strtod(av[i], &endptr);
-//     if (*endptr != '\0') throw std::runtime_error("Error: invalid number");
-//     if (number < 0) throw std::runtime_error("Error: negative number");
-//     if (number > INT_MAX) throw std::runtime_error("Error: INT_MAX
-//     number");
+    std::vector<std::pair<int, std::vector<int> > >::iterator it;
+    for (it = vectorPair.begin(); it != vectorPair.end(); it++) {
+      if (it->first == pushNumber) {
+        throw std::runtime_error("Error: duplicate number");
+      }
+    }
+    std::vector<int> emptyVector;
+    vectorPair.push_back(
+        std::pair<int, std::vector<int> >(pushNumber, emptyVector));
+    unsortedVector.push_back(pushNumber);
+  }
+  if (unsortedVector.size() > 100000)
+    throw std::runtime_error("Error: too many numbers (lower count -> 100000)");
+}
 
-//     int pushNumber = static_cast<int>(number);
+void PmergeMe::vectorMergeInsertSort(int pairCount) {
+  // stop point
+  if (pairCount == 1) {
+    sortedVector.push_back(vectorPair[1]);
+    vectorPair[0].second.pop_back();
+    sortedVector.push_back(vectorPair[0]);
+    return;
+  }
+  // search && push - pairA, pairB
+  int indexPairB = pairCount / 2;
+  int pairA, pairB;
+  for (int i = 0; i < indexPairB; i++) {
+    pairA = vectorPair[i].first;
+    pairB = vectorPair[i + indexPairB].first;
+    if (pairA > pairB) {
+      vectorPair[i].second.push_back(pairB);
+    } else {
+      vectorPair[i].swap(vectorPair[i + indexPairB]);
+      vectorPair[i].second.push_back(pairA);
+    }
+  }
+  // recursive
+  vectorMergeInsertSort(pairCount / 2);
+  // insert - remain
+  std::pair<int, std::vector<int> > insertPair;
+  if (pairCount % 2 == 1) {
+    insertPair = vectorPair[pairCount - 1];
+    vectorInsertPair(insertPair, insertPair.first, 0, sortedVector.size() - 1);
+  }
+  // insert - pair
+  std::vector<int> jacobsthal = vectorJacobsthalIndex(pairCount);
+  std::vector<int>::iterator iterIndex;
+  for (iterIndex = jacobsthal.begin(); iterIndex != jacobsthal.end();
+       iterIndex++) {
+    insertPair = vectorPair[*iterIndex];
+    vectorInsertPair(insertPair, insertPair.first, 0, sortedVector.size() - 1);
+  }
+}
 
-//     std::vector<int>::iterator it =
-//         std::find(unsortedVector.begin(), unsortedVector.end(),
-//         pushNumber);
-//     if (it != unsortedVector.end()) {
-//       throw std::runtime_error("Error: duplicate number");
-//     }
-//     unsortedVector.push_back(number);
-//   }
-// }
+std::vector<int> PmergeMe::vectorJacobsthalIndex(int pairCount) {
+  std::vector<int> jacobsthalVector;
+  int jacobsthalNum = 1;
+  int jacobA = 1;
+  int jacobB = 1;
+  int jacobTmp = 1;
+  bool finish = false;
+  int pairB;
+  int point_index;
 
-// std::vector<int> PmergeMe::vectorMergeInsertSort(
-//     std::vector<std::pair<int, int>> vectorPair) {
-//   std::vector<int> insertVector;
-//   std::vector<std::pair<int, int>>::iterator iter = vectorPair.begin();
+  while (true) {
+    point_index = pairCount;
+    pairB = sortedVector[jacobsthalNum - 1].second.back();
+    sortedVector[jacobsthalNum - 1].second.pop_back();
 
-//   // stop point
-//   if (vectorPair.size() == 1) {
-//     insertVector.push_back(iter->second);
-//     insertVector.push_back(iter->first);
-//     return insertVector;
-//   }
+    std::vector<std::pair<int, std::vector<int> > >::iterator it;
+    for (it = vectorPair.begin() + pairCount; it != vectorPair.end();
+         it++, point_index++) {
+      if (it->first == pairB) {
+        jacobsthalVector.push_back(point_index);
+        break;
+      }
+    }
 
-//   // vectorPair 에서 더 divide
-//   std::vector<std::pair<int, int>> nowPair;
-//   int pairA, pairB;
-//   int remain = -1;
-//   for (; iter != vectorPair.end() && (iter + 1) != vectorPair.end();
-//        iter += 2) {
-//     // vectorPair 2개씩 추출해서 nowPair에 넣기
-//     pairA = iter->first;
-//     pairB = (iter + 1)->first;
-//     if (pairA > pairB)
-//       nowPair.push_back(std::pair<int, int>(pairA, pairB));
-//     else
-//       nowPair.push_back(std::pair<int, int>(pairB, pairA));
-//   }
-//   // remain
-//   if (iter != vectorPair.end()) {
-//     remain = iter->first;
-//   }
-//   // 재귀로 insertVector 받아오기
-//   insertVector = vectorMergeInsertSort(nowPair);
-//   if (remain != -1)
-//     PmergeMe::vectorInsertPairB(insertVector, remain, 0,
-//                                 insertVector.size() - 1);
-//   // insertVector 안에 pairB 추가하기
-//   std::vector<int> order = PmergeMe::vectorJacobsthal(insertVector);
-//   std::vector<int>::iterator orderIter = order.begin();
-//   bool frontFlag = true;
-//   for (; orderIter != order.end(); orderIter++) {
-//     pairA = *orderIter;
+    if (jacobsthalNum == 1 || jacobsthalNum == jacobA + 1) {
+      if (finish) break;
+      jacobTmp = jacobA * 2 + jacobB;
+      jacobA = jacobB;
+      jacobB = jacobTmp;
+      jacobsthalNum = jacobB;
+      if (jacobsthalNum - 1 >= pairCount - 1) {
+        jacobsthalNum = pairCount;
+        finish = true;
+      }
+    } else {
+      jacobsthalNum--;
+    }
+  }
+  return jacobsthalVector;
+}
 
-//     std::vector<std::pair<int, int>>::iterator pairIter =
-//     vectorPair.begin(); for (; pairIter != vectorPair.end(); pairIter++) {
-//       if (pairIter->first == pairA) {
-//         pairB = pairIter->second;
-//         break;
-//       }
-//     }
-//     if (frontFlag) {
-//       insertVector.insert(insertVector.begin(), pairB);
-//       frontFlag = false;
-//     } else {
-//       std::vector<int>::iterator it =
-//           std::find(insertVector.begin(), insertVector.end(), pairA);
-//       int high = it - insertVector.begin();
-//       PmergeMe::vectorInsertPairB(insertVector, pairB, 0, high - 1);
-//     }
-//   }
-//   return insertVector;
-// }
+void PmergeMe::vectorInsertPair(std::pair<int, std::vector<int> > insertPair,
+                                int pairB, int low, int high) {
+  // stop point
+  if (high == low) {
+    if (sortedVector[high].first > pairB)
+      sortedVector.insert(sortedVector.begin() + high, insertPair);
+    else if (sortedVector[high].first < pairB)
+      sortedVector.insert(sortedVector.begin() + high + 1, insertPair);
+    return;
+  }
+  int mid = (low + high) / 2;
+  if (pairB < sortedVector[mid].first) {
+    vectorInsertPair(insertPair, pairB, low, mid);
+  } else if (sortedVector[mid].first < pairB) {
+    if (mid == low)
+      vectorInsertPair(insertPair, pairB, mid + 1, high);
+    else
+      vectorInsertPair(insertPair, pairB, mid, high);
+  }
+}
 
-// std::vector<int> PmergeMe::vectorJacobsthal(std::vector<int> insertVector)
-// {
-//   std::vector<int> jacobsthalVector;
-//   int count = insertVector.size();
-//   int jacobsthalA = 1;
-//   int jacobsthalB = 1;
-//   int jacobsthalNum = -1;
+void PmergeMe::execute(int ac, char** av) {
+  std::clock_t start, end;
 
-//   jacobsthalVector.push_back(insertVector[0]);
-//   while (jacobsthalNum != count) {
-//     jacobsthalNum = jacobsthalA * 2 + jacobsthalB;
-//     jacobsthalA = jacobsthalB;
-//     jacobsthalB = jacobsthalNum;
-//     if (jacobsthalNum >= count) jacobsthalNum = count;
+  start = std::clock();
+  executeDeque(ac, av);
+  end = std::clock();
 
-//     for (int i = jacobsthalNum; jacobsthalA < i; i--) {
-//       jacobsthalVector.push_back(insertVector[i - 1]);
-//     }
-//   }
-//   return jacobsthalVector;
-// }
+  dequeTime = (double)(end - start) * 1000000 / CLOCKS_PER_SEC;
 
-// void PmergeMe::vectorInsertPairB(std::vector<int>& insertVector, int pairB,
-//                                  int low, int high) {
-//   // stop point
-//   if (high == low) {
-//     if (insertVector[high] > pairB)
-//       insertVector.insert(insertVector.begin() + high, pairB);
-//     else if (insertVector[high] < pairB)
-//       insertVector.insert(insertVector.begin() + high + 1, pairB);
-//     return;
-//   }
-//   int mid = (low + high) / 2;
-//   if (pairB < insertVector[mid]) {
-//     PmergeMe::vectorInsertPairB(insertVector, pairB, low, mid);
-//   } else if (insertVector[mid] < pairB) {
-//     if (mid == low)
-//       PmergeMe::vectorInsertPairB(insertVector, pairB, mid + 1, high);
-//     else
-//       PmergeMe::vectorInsertPairB(insertVector, pairB, mid, high);
-//   }
-// }
+  start = std::clock();
+  executeVector(ac, av);
+  end = std::clock();
 
-// void PmergeMe::execute(int ac, char** av) {
-//   std::clock_t start, end;
+  vectorTime = (double)(end - start) * 1000000 / CLOCKS_PER_SEC;
 
-//   start = std::clock();
-//   PmergeMe::executeDeque(ac, av);
-//   end = std::clock();
+  printResult();
+}
 
-//   dequeTime = (double)(end - start) * 1000000 / CLOCKS_PER_SEC;
+void PmergeMe::printResult() {
+  if (dequePair.size() != sortedVector.size())
+    throw std::runtime_error("sorted check size error");
 
-//   start = std::clock();
-//   PmergeMe::executeVector(ac, av);
-//   end = std::clock();
+  std::deque<std::pair<int, std::deque<int> > >::iterator iterDeque =
+      sortedDeque.begin();
+  std::vector<std::pair<int, std::vector<int> > >::iterator iterVector =
+      sortedVector.begin();
+  for (; iterDeque != sortedDeque.end() && iterVector != sortedVector.end();
+       iterDeque++, iterVector++) {
+    if (iterDeque->first != iterVector->first)
+      throw std::runtime_error("sorted check order error");
+  }
 
-//   vectorTime = (double)(end - start) * 1000000 / CLOCKS_PER_SEC;
-
-//   PmergeMe::printResult();
-// }
-
-// void PmergeMe::printResult() {
-//   if (dequePair.size() != sortedVector.size())
-//     throw std::runtime_error("sorted check size error");
-
-//   std::deque<int>::iterator iterDeque = sortedDeque.begin();
-//   std::vector<int>::iterator iterVector = sortedVector.begin();
-//   for (; iterDeque != sortedDeque.end() && iterVector !=
-//   sortedVector.end();
-//        iterDeque++, iterVector++) {
-//     // TEST
-//     // std::cout << *iterDeque << " " << *iterVector << std::endl;
-//     // TEST
-//     if (*iterDeque != *iterVector)
-//       throw std::runtime_error("sorted check order error");
-//   }
-
-//   // PRINT
-//   std::cout << "Before: ";
-//   for (iterDeque = unsortedDeque.begin(); iterDeque != unsortedDeque.end();
-//        iterDeque++) {
-//     std::cout << *iterDeque << " ";
-//   }
-//   std::cout << std::endl;
-//   std::cout << "After:  ";
-//   for (iterDeque = sortedDeque.begin(); iterDeque != sortedDeque.end();
-//        iterDeque++) {
-//     std::cout << *iterDeque << " ";
-//   }
-//   std::cout << std::endl;
-//   std::cout << "Time to process a range of " << sortedDeque.size()
-//             << " elements with std::deque : " << dequeTime << " us"
-//             << std::endl;
-//   std::cout << "Time to process a range of " << sortedVector.size()
-//             << " elements with std::vector : " << vectorTime << " us"
-//             << std::endl;
-// }
+  // PRINT
+  std::deque<int>::iterator it;
+  std::cout << "Before: ";
+  for (it = unsortedDeque.begin(); it != unsortedDeque.end(); it++) {
+    std::cout << *it << " ";
+  }
+  std::cout << std::endl;
+  std::cout << "After:  ";
+  for (iterDeque = sortedDeque.begin(); iterDeque != sortedDeque.end();
+       iterDeque++) {
+    std::cout << iterDeque->first << " ";
+  }
+  std::cout << std::endl;
+  std::cout << "Time to process a range of " << sortedDeque.size()
+            << " elements with std::deque : " << dequeTime << " us"
+            << std::endl;
+  std::cout << "Time to process a range of " << sortedVector.size()
+            << " elements with std::vector : " << vectorTime << " us"
+            << std::endl;
+}
