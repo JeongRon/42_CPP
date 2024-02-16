@@ -30,7 +30,7 @@ void PmergeMe::executeDeque(int ac, char** av) {
     if (pairA > pairB) {
       dequePair[i].second.push_back(pairB);
     } else {
-      dequePair[i].swap(dequePair[i + indexPairB]);
+      std::swap(dequePair[i], dequePair[i + indexPairB]);
       dequePair[i].second.push_back(pairA);
     }
   }
@@ -93,7 +93,7 @@ void PmergeMe::dequeMergeInsertSort(int pairCount) {
     if (pairA > pairB) {
       dequePair[i].second.push_back(pairB);
     } else {
-      dequePair[i].swap(dequePair[i + indexPairB]);
+      std::swap(dequePair[i], dequePair[i + indexPairB]);
       dequePair[i].second.push_back(pairA);
     }
   }
@@ -195,7 +195,7 @@ void PmergeMe::executeVector(int ac, char** av) {
     if (pairA > pairB) {
       vectorPair[i].second.push_back(pairB);
     } else {
-      vectorPair[i].swap(vectorPair[i + indexPairB]);
+      std::swap(vectorPair[i], vectorPair[i + indexPairB]);
       vectorPair[i].second.push_back(pairA);
     }
   }
@@ -257,7 +257,7 @@ void PmergeMe::vectorMergeInsertSort(int pairCount) {
     if (pairA > pairB) {
       vectorPair[i].second.push_back(pairB);
     } else {
-      vectorPair[i].swap(vectorPair[i + indexPairB]);
+      std::swap(vectorPair[i], vectorPair[i + indexPairB]);
       vectorPair[i].second.push_back(pairA);
     }
   }
